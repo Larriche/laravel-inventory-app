@@ -11,8 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
+
+// Resource route for managing item types
+Route::resource('types', 'TypesController');
