@@ -15,4 +15,7 @@
 Auth::routes();
 
 // Resource route for managing item types
-Route::resource('types', 'TypesController');
+Route::resource('item_types', 'TypesController');
+
+// Resource route for managing vendors
+Route::resource('item_vendors', 'VendorsController');

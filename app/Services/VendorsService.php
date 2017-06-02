@@ -13,7 +13,7 @@ namespace App\Services;
 */
 
 use App\Models\Vendor;
-use FileUploadManager;
+use App\Services\FileUploadManager;
 
 class VendorsService
 {
@@ -39,7 +39,8 @@ class VendorsService
 	{
 		// Data for creating a new vendor
 		$data = [
-		    'name' => $request->name
+		    'name' => $request->name,
+            'logo_url' => ''
 		];
 
         // Add new vendor to database

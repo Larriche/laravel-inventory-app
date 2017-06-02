@@ -90,8 +90,49 @@ class TypesController extends Controller
 		}
 	}
 
+    /**
+     * Update the type with the given ID
+     * 
+     * @param  int  $id  The ID of the type to be updated
+     * @param  Illuminate\Http\Request $request The HTTP request
+     * @return Illuminate\Http\Response The HTTP response
+     */
 	public function update($id, Request $request)
 	{
-		
+		$type = $this->types_service->getType($id);
+
+		if (!$type) {
+			$response = ['errors' => ['This type does not exist']];
+
+			return Response::json($response, 404);
+		}
+
+		$type = $this->types_service->update($type, $request);
+
+		$response = ['message' => 'Type has been updated'];
+
+        return Response::json($response, 200);
+	}
+
+    /**
+     * Delete the type with the given ID
+     * 
+     * @param  int $id The ID of the type to be deleted
+     */
+	public function delete($id)
+	{
+	    $type = $this->types_service->getType($id);
+
+		if (!$type) {
+			$response = ['errors' => ['This type does not exist']];
+
+			return Response::json($response, 404);
+		}	
+
+		$this->types_service->delete($type);
+
+		$response = ['message' => 'Type has been deleted'];
+
+        return Response::json($response, 200);
 	}
 }

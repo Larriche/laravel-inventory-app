@@ -60,12 +60,12 @@ class FileUploadManager
 	public function validate($settings)
 	{
 		$errors = [];
-
+        
 		$file = $this->file;
 		$type = $file->getMimeType();
 		$size = $file->getClientSize() / 1024;
 		list($width, $height) = getimagesize($file);
-
+        
 		if (isset($settings['max_width'])) {
 			$maxWidth = $settings['max_width'];
 
