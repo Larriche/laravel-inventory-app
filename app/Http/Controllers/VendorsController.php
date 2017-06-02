@@ -126,7 +126,7 @@ class VendorsController extends Controller
 		if ($vendor) {
 			return Response::json($vendor, 200);
 		} else {
-			$response = ['errors' => ['This type does not exist']];
+			$response = ['errors' => ['This vendor does not exist']];
 
 			return Response::json($response, 404);
 		}
