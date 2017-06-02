@@ -26,15 +26,15 @@
 	<body class="nav-md {{ $body_class }}">
 		<div class="container body">
 			<div class="main_container">
-				@if (Auth::check() && Auth::user()->isActivated())
+				@if (Auth::check())
 					{{-- Sidebar --}}
 					<div class="col-lg-3 col-md-3 col-sm-3 left_col">
-						@include('layouts.sidebar')
+						@include('partials.sidebar')
 					</div>
 
 					{{-- Top Navigation --}}
 					<div class="top_nav">
-						@include('layouts.nav')
+						@include('partials.nav')
 					</div>
 
 					<!-- page content -->

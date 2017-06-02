@@ -22,9 +22,14 @@ class VendorsService
 	 * 
 	 * @return array The collection of vendors
 	 */
-	public function getVendors()
+	public function getVendors($paginate = false)
 	{
-		$vendors = Vendor::all();
+		if ($paginate) {
+            $per_page = 20;
+            $vendors = Vendor::paginate($per_page);
+        } else {
+            $vendors = Vendors::all();
+        }
 		return $vendors;
 	}
 

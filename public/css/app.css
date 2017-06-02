@@ -216,3 +216,21 @@ p.form-info{
   font-size: 0.9em;
   text-align: center;
 }
+
+.vendor-logo{
+	height: 50px;
+	width: 50px;
+}
+
+.vendor-logo-placeholder{
+	max-width: 120px;
+	max-height: 120px;
+	border: 1px dotted grey;
+	margin-bottom: 5px;
+	padding: 5px;
+}
+
+.vendor-logo-placeholder img{
+	height: 100px;
+	width: 100px;
+}

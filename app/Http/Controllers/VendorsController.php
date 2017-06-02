@@ -35,9 +35,9 @@ class VendorsController extends Controller
      */
 	public function index()
 	{
-		$vendors = $this->vendors_service->getVendors();
+		$vendors = $this->vendors_service->getVendors($paginate = true);
 
-		return $vendors;
+		return view('vendors.index', compact('vendors'));
 	}
 
     /**
