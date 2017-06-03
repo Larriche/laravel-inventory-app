@@ -17,9 +17,6 @@ var App = {
 			event.preventDefault();
 			$(this).parent().addClass('hidden');
 		});
-		
-		// Select 2
-		$(".select2").select2();
 
 		App.registerEventListeners();
 	},

@@ -130,7 +130,8 @@ class VendorsService
         
         // Move the file to the specified folder saving it with name 'logo_' 
         // with ID of vendor appended
-        $name = 'logo_'.$vendor_id;
+        // We also append timestamp to it to force reload of images by browser after updates
+        $name = 'logo_'.$vendor_id.'_'.time();
         $destination = $file->move($path, $name, 'jpg');
         
         return $destination;

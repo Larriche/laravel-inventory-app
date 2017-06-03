@@ -193,7 +193,7 @@ class VendorsController extends Controller
             }
         }
 
-        $vendor = $this->vendors_service->update($vendor, $request);
+        $vendor = $this->vendors_service->updateVendor($vendor, $request);
 
         $response = ['message' => 'Vendor has been updated'];
 
