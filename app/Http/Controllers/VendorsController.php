@@ -33,9 +33,15 @@ class VendorsController extends Controller
      * 
      * @return Illuminate\Http\Response
      */
-	public function index()
+	public function index(Request $request)
 	{
 		$vendors = $this->vendors_service->getVendors($paginate = true);
+
+        // For ajax request to refresh table of vendors,
+        // return just the table
+        if ($request->ajax()) {
+            return view('vendors.table', compact('vendors'));
+        }
 
 		return view('vendors.index', compact('vendors'));
 	}

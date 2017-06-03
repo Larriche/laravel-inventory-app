@@ -22,7 +22,7 @@
 	                 </div>
 	             </div>
 
-	             <div class="x_content" id="products-container">
+	             <div class="x_content" id="vendors-container">
 	                 @include('vendors.table')
 	             </div>
 	        </div>

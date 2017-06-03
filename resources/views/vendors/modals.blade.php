@@ -12,7 +12,7 @@
 
             <form class="form" method="POST" action="/item_vendors" id="vendor-add-form" enctype="multipart/form-data">
             <div class="modal-body">
-                <div id="vendor-add-errors-container">
+                <div id="vendors-add-errors-container">
                     @include('partials.modal_errors')
                 </div>
 

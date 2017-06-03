@@ -98,7 +98,8 @@ var App = {
 
 			error: function(response){
 				if ($errorContainer) {
-					var errors = response.responseJSON;
+					var errors = response.responseJSON.errors;
+					console.log(errors);
 	                var errorHtml = App.buildErrorHtml(errors);
 
 	                $errorContainer.find('ul').html(errorHtml);
