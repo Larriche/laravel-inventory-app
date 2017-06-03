@@ -22,6 +22,20 @@ var Vendors = {
 			e.preventDefault();
 			App.submitForm(this, Vendors.refreshVendors, $('#vendors-update-errors-container'));
 		});
+
+		// Event handler for click of vendor delete button
+		$(document).on('click', '.delete-vendor', function(){
+			var id = $(this).attr('data-id');
+            App.setDeleteForm('/item_vendors/' + id, 'vendor-delete-form', 'Delete Vendor');
+            App.showConfirmDialog("Do you want to delete this vendor?");
+		});
+
+		// Event handler for when form for deleting item vendor is submitted
+		$(document).on('submit', '#vendor-delete-form', function(e){
+			e.preventDefault();
+			App.submitForm(this, Vendors.refreshVendors, null);
+			App.hideConfirmDialog();
+		});
 	},
 
 	refreshVendors: function(){

@@ -206,7 +206,7 @@ class VendorsController extends Controller
      * @param  int $id The ID of the vendor
      * @return Illuminate\Http\Response The HTTP response
      */
-	public function delete($id)
+	public function destroy($id)
 	{
 		$vendor = $this->vendors_service->getVendor($id);
 
@@ -216,7 +216,7 @@ class VendorsController extends Controller
 			return Response::json($response, 404);
 		}	
 
-		$this->vendors_service->delete($vendor);
+		$this->vendors_service->deleteVendor($vendor);
 
 		$response = ['message' => 'Vendor has been deleted'];
 
