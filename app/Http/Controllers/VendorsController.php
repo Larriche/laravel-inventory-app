@@ -101,7 +101,8 @@ class VendorsController extends Controller
         $existing = Vendor::whereRaw('name REGEXP "'.$regex.'" ')->first();
 
         if ($existing) {
-            $response = ['errors' => ['This vendor already exists']];
+            $validator->getMessageBag()->add('name', 'This vendor already exists');
+            $response = ['errors' => $validator->messages()];
 
             return Response::json($response, 422);
         }
@@ -161,7 +162,8 @@ class VendorsController extends Controller
             ->where('id', '!=', $vendor->id)->first();
 
         if ($existing) {
-            $response = ['errors' => ['This vendor already exists']];
+            $validator->getMessageBag()->add('name', 'This vendor already exists');
+            $response = ['errors' => $validator->messages()];
 
             return Response::json($response, 422);
         }

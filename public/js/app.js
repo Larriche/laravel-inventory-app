@@ -2,13 +2,6 @@ var App = {
 	Init: function() {
 		$('.alert.fade-in').delay(10000).slideUp('fade-in');
 
-		$('form').on('input', function (event) {
-			if (event.keyCode == 13) {
-				event.preventDefault();
-				return false;
-			}
-		});
-
 		var closeButtons = $('.modal div.alert-danger a[data-dismiss=alert]');
 
 		closeButtons.removeAttr('data-dismiss');

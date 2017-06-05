@@ -20,10 +20,14 @@ class TypesService
 	 * 
 	 * @return array A collection of item types
 	 */
-	public function getTypes()
+	public function getTypes($paginate = false)
 	{
-		$types = Type::all();
-
+		if ($paginate) {
+            $per_page = 20;
+            $types = Type::paginate($per_page);
+        } else {
+            $types = Type::all();
+        }
 		return $types;
 	}
 

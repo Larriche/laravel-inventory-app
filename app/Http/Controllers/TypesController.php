@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Type;
+
 use Validator;
 use Response;
 use Illuminate\Http\Request;
 use App\Services\TypesService;
+use App\Services\UtilityService;
 
 class TypesController extends Controller
 {
@@ -31,9 +34,15 @@ class TypesController extends Controller
      */
 	public function index(Request $request)
 	{
-	    $types = $this->types_service->getTypes();
+	    $types = $this->types_service->getTypes($paginate = true);
 
-	    return $types;	
+	    // For ajax request to refresh table of types,
+        // return just the table
+        if ($request->ajax()) {
+            return view('types.table', compact('types'));
+        }
+
+		return view('types.index', compact('types'));
 	}
 
     /**
@@ -56,6 +65,18 @@ class TypesController extends Controller
             $response = ['errors' => $validator->messages()];
 
             return Response::json($response , 422);
+        }
+        
+        // Validate the uniqueness of this item type
+        $regex = UtilityService::getSimilarityRegex($request->name);
+
+        $existing = Type::whereRaw('name REGEXP "'.$regex.'" ')->first();
+
+        if ($existing) {
+        	$validator->getMessageBag()->add('name', 'This type already exists');
+            $response = ['errors' => $validator->messages()];
+
+            return Response::json($response, 422);
         }
 
         $type = $this->types_service->addType($request);
@@ -107,7 +128,33 @@ class TypesController extends Controller
 			return Response::json($response, 404);
 		}
 
-		$type = $this->types_service->update($type, $request);
+		// Rules for validating request data
+		$rules = [
+		    'name' => 'required',
+		];
+
+		// Validate the passed data using the rules
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()){
+            $response = ['errors' => $validator->messages()];
+
+            return Response::json($response , 422);
+        }
+        
+        // Validate the uniqueness of this item type
+        $regex = UtilityService::getSimilarityRegex($request->name);
+
+        $existing = Type::whereRaw('name REGEXP "'.$regex.'" ')->where('id','!=', $type->id)->first();
+
+        if ($existing) {
+        	$validator->getMessageBag()->add('name', 'This type already exists');
+            $response = ['errors' => $validator->messages()];
+
+            return Response::json($response, 422);
+        }
+
+		$type = $this->types_service->updateType($type, $request);
 
 		$response = ['message' => 'Type has been updated'];
 
@@ -119,7 +166,7 @@ class TypesController extends Controller
      * 
      * @param  int $id The ID of the type to be deleted
      */
-	public function delete($id)
+	public function destroy($id)
 	{
 	    $type = $this->types_service->getType($id);
 
@@ -129,7 +176,7 @@ class TypesController extends Controller
 			return Response::json($response, 404);
 		}	
 
-		$this->types_service->delete($type);
+		$this->types_service->deleteType($type);
 
 		$response = ['message' => 'Type has been deleted'];
 

@@ -23,7 +23,7 @@ class UtilityService {
 
         // Take each part and attach to it regex for matching
         // one or more spaces
-        for ($i = 0; $i < count($term_parts) - 2; $i++) {
+        for ($i = 0; $i < count($term_parts) - 1; $i++) {
             $part = $term_parts[$i];
             $regex .= $part."\\\\s+";
         }

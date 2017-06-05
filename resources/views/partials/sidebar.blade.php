@@ -30,7 +30,7 @@
 
                 <li class="{{ Request::segment(1) == 'items' ? 'active' : null }}"><a href="{{ URL::to('/items') }}"><i class="fa fa-gift"></i>Items</a></li>
 
-                <li class="{{ Request::segment(1) == 'types' ? 'active' : null }}"><a href="{{ URL::to('/types') }}"><i class="fa fa-cubes"></i>Types</a></li>
+                <li class="{{ Request::segment(1) == 'types' ? 'active' : null }}"><a href="{{ URL::to('/item_types') }}"><i class="fa fa-cubes"></i>Types</a></li>
 
                 <li class="{{ Request::segment(1) == 'item_vendors' ? 'active' : null }}"><a href="{{ URL::to('/item_vendors') }}"><i class="fa fa-institution"></i>Vendors</a></li>
                 
