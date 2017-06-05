@@ -20,5 +20,8 @@ Route::resource('item_types', 'TypesController');
 // Resource route for managing vendors
 Route::resource('item_vendors', 'VendorsController');
 
+// Resource route for managing items
+Route::resource('items', 'ItemsController');
+
 // Home route
 Route::get('/', 'DashboardController@index');

@@ -10,6 +10,14 @@ var App = {
 			event.preventDefault();
 			$(this).parent().addClass('hidden');
 		});
+        
+        // Select 2
+		$(".select2").select2();
+
+		// Date Picker
+		$(".datepicker").datepicker({
+	        autoclose: true
+	    });
 
 		App.registerEventListeners();
 	},
@@ -166,6 +174,7 @@ var App = {
 	    });
 
 	    $('[name=logo]').change(App.PreviewImage); 
+	    $('[name=image]').change(App.PreviewImage); 
 	}
 };
 

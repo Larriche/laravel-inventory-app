@@ -38,5 +38,9 @@
  <!-- Canvas JS -->
  <script src="{!! URL::asset('/js/canvasjs.min.js') !!}"></script>
 
+ <!-- datepicker -->
+<script src="{{ URL::asset('vendors/datepicker/bootstrap-datepicker.js') }}"></script>
+
+
 {{-- App JS --}}
 <script src="{!! URL::asset('/js/app.js') !!}"></script>

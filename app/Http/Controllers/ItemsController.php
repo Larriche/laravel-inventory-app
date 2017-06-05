@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Type;
+use App\Models\Vendor;
 
 use Response;
 use Validator;
@@ -49,8 +51,10 @@ class ItemsController extends Controller
         }
 
         $items = $this->items_service->getItems($request);
+        $types = Type::all();
+        $vendors = Vendor::all();
 
-        return $items;
+        return view('items.index', compact('items', 'types', 'vendors'));
 	}
 
     /**

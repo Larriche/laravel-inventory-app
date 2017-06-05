@@ -29,3 +29,6 @@
 
 {{-- App Styles --}}
 <link href="{!! URL::asset('/css/app.css') !!}" rel="stylesheet">
+
+<!-- Date Picker -->
+  <link rel="stylesheet" href="{{ URL::asset('vendors/datepicker/datepicker3.css') }}">

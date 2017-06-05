@@ -222,9 +222,22 @@ p.form-info{
 	width: 50px;
 }
 
+#uploaded-item-image{
+	height: 300px;
+	width: 100%;
+}
+
 .vendor-logo-placeholder{
 	max-width: 120px;
 	max-height: 120px;
+	border: 1px dotted grey;
+	margin-bottom: 5px;
+	padding: 5px;
+}
+
+.item-image-placeholder{
+	max-width: 100%;
+	max-height: 400px;
 	border: 1px dotted grey;
 	margin-bottom: 5px;
 	padding: 5px;
