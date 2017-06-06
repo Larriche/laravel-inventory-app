@@ -13,6 +13,8 @@ namespace App\Services;
 */
 
 use App\Models\Item;
+
+use Exception;
 use App\Services\FileUploadManager;
 use App\Services\DatetimeParser;
 
@@ -153,6 +155,12 @@ class ItemsService
     public function deleteItem($item)
     {
         $item->delete();
+        // Delete item image
+        try {
+            unlink(storage_path('app\\'.$item->getOriginal('image_url')));
+        } catch (Exception $ex) {
+
+        }
     }
 
     /**
@@ -165,6 +173,17 @@ class ItemsService
     public function uploadItemImage($item_id, $uploaded_file)
     {
         $file = new FileUploadManager($uploaded_file);
+
+        // Delete existing item image if any
+        $item = Item::find($item_id);
+
+        if ($item->image_url) {
+            try {
+                unlink(storage_path('app\\'.$item->getOriginal('image_url')));
+            } catch (Exception $ex) {
+
+            }
+        }
 
         // Path of folder to save uploaded logo in
         $path = 'item_images';
