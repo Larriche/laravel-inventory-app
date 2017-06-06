@@ -69,5 +69,5 @@
 @endsection
 
 @section('scripts')
-<script src="/js/types.js"></script>
+<script src="/js/items.js"></script>
 @endsection

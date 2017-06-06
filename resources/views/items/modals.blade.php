@@ -12,7 +12,7 @@
 
             <form class="form" method="POST" action="/items" id="item-add-form" enctype="multipart/form-data">
             <div class="modal-body">
-                <div id="types-add-errors-container">
+                <div id="items-add-errors-container">
                     @include('partials.modal_errors')
                 </div>
 
@@ -22,7 +22,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="item-image-placeholder">
-                                    <img src="/images/item_image_placeholder.png" class="img img-responsive" id="uploaded-item-image">
+                                    <img src="/images/item_image_placeholder.png" class="img img-responsive image-placeholder" id="uploaded-item-image">
                                 </div>
                             </div>
                         </div>

@@ -54,6 +54,12 @@ class ItemsController extends Controller
         $items = $this->items_service->getItems($request);
         $types = Type::all();
         $vendors = Vendor::all();
+        
+        // If request is Ajax request to refresh table of items,
+        // return only the table
+        if ($request->ajax()) {
+            return view('items.table', compact('items', 'types', 'vendors'));
+        }
 
         return view('items.index', compact('items', 'types', 'vendors'));
 	}

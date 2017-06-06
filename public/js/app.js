@@ -78,6 +78,7 @@ var App = {
 			contentType: false,
 			cache: false,
 			success: function (responseMsg) {
+			    // Notify of sucessful action
 				new PNotify({
 					title: 'Success',
 					text: responseMsg.message,
@@ -85,13 +86,20 @@ var App = {
 					type: 'success'
 				});
                 
+                // HIde modal if form is in modal
                 if(hideModal){
 				    $('.modal').modal('hide');
                 }
 
+                // Run callback functions(usually for refreshing items view after updates)
 				if (callback) {
 					callback();
 				}
+
+				// Reset the form by clearing the form and re-loading image placeholder
+				$(form)[0].reset();
+
+				$(form).find('image-placeholder').attr('src', '/images/item_image_placeholder.png');
 			},
 
 			error: function(response){
