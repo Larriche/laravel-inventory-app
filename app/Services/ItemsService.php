@@ -13,7 +13,8 @@ namespace App\Services;
 */
 
 use App\Models\Item;
-use FileUploadManager;
+use App\Services\FileUploadManager;
+use App\Services\DatetimeParser;
 
 class ItemsService
 {
@@ -61,6 +62,9 @@ class ItemsService
      */
     public function addItem($request)
     {
+        // Correct date format for entry into MySQL
+        $date = DateTimeParser::getDateTime($request->release_date);
+
         // Data for creating a new item
         $data = [
             'name' => $request->name,
@@ -70,7 +74,7 @@ class ItemsService
             'weight' => $request->weight,
             'serial_number' => $request->serial_number,
             'color' => $request->color,
-            'release_date' => $request->release_date,
+            'release_date' => $date,
             'tags' => $request->tags,
             'image_url' => ''
         ];

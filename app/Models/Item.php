@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use URL;
+use Storage;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
@@ -26,5 +28,16 @@ class Item extends Model
     public function vendor()
     {
     	return $this->belongsTo(Vendor::class, 'vendor_id');
+    }
+
+    /**
+     * Mutator for returning full server path to uploaded item images
+     * 
+     * @param  string $value The image path as stored in the DB
+     * @return string The mutated value
+     */
+    public function getImageUrlAttribute($value)
+    {
+        return $value ? URL::asset(Storage::url($value)) : null;
     }
 }

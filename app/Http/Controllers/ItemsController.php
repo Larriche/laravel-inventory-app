@@ -10,6 +10,7 @@ use Response;
 use Validator;
 use Illuminate\Http\Request;
 use App\Services\ItemsService;
+use App\Services\FileUploadManager;
 
 class ItemsController extends Controller
 {
@@ -70,7 +71,7 @@ class ItemsController extends Controller
 		    'name' => 'required',
 		    'vendor_id' => 'required',
 		    'type_id' =>'required',
-		    'serial_number' => 'required',
+		    'serial_number' => 'required|unique:items',
 		    'weight' =>'required',
 		    'color' => 'required',
 		    'price' => 'required|numeric',
@@ -111,17 +112,6 @@ class ItemsController extends Controller
 
                 return Response::json($response , 422);
             }
-        }
-
-        // Validate the uniqueness of this vendor
-        $regex = UtilityService::getSimilarityRegex($request->name);
-
-        $existing = Item::whereRaw('name REGEXP "'.$regex.'" ')->first();
-
-        if ($existing) {
-            $response = ['errors' => ['This item already exists']];
-
-            return Response::json($response, 422);
         }
 
         $item = $this->items_service->addItem($request);

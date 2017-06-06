@@ -10,7 +10,7 @@
                 <h4>Add New Item</h4>
             </div>
 
-            <form class="form" method="POST" action="/item_types" id="item-add-form">
+            <form class="form" method="POST" action="/items" id="item-add-form" enctype="multipart/form-data">
             <div class="modal-body">
                 <div id="types-add-errors-container">
                     @include('partials.modal_errors')
@@ -100,7 +100,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" class="form-control datepicker" name="submission_date">
+                                            <input type="text" class="form-control datepicker" name="release_date">
                                         </div>
                                     </div>
                                 </div>
@@ -127,14 +127,14 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-5 col-offset-1 col-md-offset-1">
-                            <button type="submit" class="btn btn-primary btn-block">Add Type</button>
+                            <button type="submit" class="btn btn-primary btn-block">Add Item</button>
                         </div>
 
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
-                </div>
+                </div>    
             </div>
             
             </form>
