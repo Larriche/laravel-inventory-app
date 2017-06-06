@@ -47,24 +47,28 @@ class DatetimeParser
 	{
 		$datetimeParts = explode(" ",$dateTime);
 		$date = $datetimeParts[0];
-		$time = $datetimeParts[1];
+		$time = (count($datetimeParts) > 1) ? $datetimeParts[1] : null;
 
 		$dateParts = explode("-", $date);
 		$convertedDate = $dateParts[1].'/'.$dateParts[count($dateParts) - 1].'/'.$dateParts[0];
 
-		$timeParts = explode(":", $time);
-		$hour = $timeParts[0];
-		$minute = $timeParts[1];
+        if ($time) {
+			$timeParts = explode(":", $time);
+			$hour = $timeParts[0];
+			$minute = $timeParts[1];
 
-		if((int)$hour > 12){
-			$hour = (int)$hour - 12;
-			$period = "PM";
-		}
-		else{
-			$period = "AM";
-		}
+			if((int)$hour > 12){
+				$hour = (int)$hour - 12;
+				$period = "PM";
+			}
+			else{
+				$period = "AM";
+			}
 
-		$convertedTime = $hour . ":" . $minute. " " . $period;
+			$convertedTime = $hour . ":" . $minute. " " . $period;
+		} else {
+			$convertedTime = "";
+		}
 
 		return [ $convertedDate, $convertedTime ];
 	}

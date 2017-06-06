@@ -10,6 +10,7 @@ use Response;
 use Validator;
 use Illuminate\Http\Request;
 use App\Services\ItemsService;
+use App\Services\DatetimeParser;
 use App\Services\FileUploadManager;
 
 class ItemsController extends Controller
@@ -114,7 +115,11 @@ class ItemsController extends Controller
             // If there were errors from the photo validation
             // Return the error messages as the response
             if (count($photo_errors)) {
-                $response = ['errors' => $photo_errors];
+                foreach($photo_errors as $error) {
+                    $validator->getMessageBag()->add('image', $error);
+                }
+
+                $response = ['errors' => $validator->messages()];
 
                 return Response::json($response , 422);
             }
@@ -144,6 +149,9 @@ class ItemsController extends Controller
 		$item = $this->items_service->getItem($id);
 
 		if ($item) {
+            // Change release_date field of item to be in format suitable
+            // for Bootstrap date picker
+            $item->release_date = DatetimeParser::getPickerDateTime($item->release_date)[0];
 			return Response::json($item, 200);
 		} else {
 			$response = ['errors' => ['This item does not exist']];
@@ -169,15 +177,24 @@ class ItemsController extends Controller
 			return Response::json($response, 404);
 		}
 
-        $regex = UtilityService::getSimilarityRegex($request->name);
+        // Rules for validating request data
+        $rules = [
+            'name' => 'required',
+            'vendor_id' => 'required',
+            'type_id' =>'required',
+            'serial_number' => 'required|unique:items,serial_number,'.$item->id,
+            'weight' =>'required',
+            'color' => 'required',
+            'price' => 'required|numeric',
+        ];
 
-        $existing = Item::whereRaw('name REGEXP "'.$regex.'" ')
-            ->where('id', '!=', $item->id)->first();
+        // Validate the passed data using the rules
+        $validator = Validator::make($request->all(), $rules);
 
-        if ($existing) {
-            $response = ['errors' => ['This item already exists']];
+        if($validator->fails()){
+            $response = ['errors' => $validator->messages()];
 
-            return Response::json($response, 422);
+            return Response::json($response , 422);
         }
 
 		// If a new image is uploaded, validate the uploaded image
@@ -187,8 +204,8 @@ class ItemsController extends Controller
 
             // Settings to use for validating the uploaded image
             $settings = [
-                'max_width' => 500,
-                'max_height' => 500,
+                'max_width' => 800,
+                'max_height' => 800,
                 'max_size' => 1024,
                 'valid_mimes' => ['image/jpeg', 'image/png'],
                 'mimes_message' => 'File must be an image of type jpeg or png'
@@ -201,13 +218,17 @@ class ItemsController extends Controller
             // If there were errors from the photo validation
             // Return the error messages as the response
             if (count($photo_errors)) {
-                $response = ['errors' => $photo_errors];
+                foreach($photo_errors as $error) {
+                    $validator->getMessageBag()->add('image', $error);
+                }
+
+                $response = ['errors' => $validator->messages()];
 
                 return Response::json($response , 422);
             }
         }
 
-        $item = $this->items_service->update($item, $request);
+        $item = $this->items_service->updateItem($item, $request);
 
         $response = ['message' => 'Item has been updated'];
 
@@ -221,7 +242,7 @@ class ItemsController extends Controller
      * @param  int $id The ID of the item
      * @return Illuminate\Http\Response The HTTP response
      */
-	public function delete($id)
+	public function destroy($id)
 	{
 		$item = $this->items_service->getItem($id);
 
@@ -231,7 +252,7 @@ class ItemsController extends Controller
 			return Response::json($response, 404);
 		}	
 
-		$this->items_service->delete($item);
+		$this->items_service->deleteItem($item);
 
 		$response = ['message' => 'Item has been deleted'];
 

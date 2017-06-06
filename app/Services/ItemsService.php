@@ -121,7 +121,14 @@ class ItemsService
 
         foreach ($editables as $editable) {
             if ($request->has($editable)) {
-                $data[$editable] = $request->$editable;
+                if ($editable =='release_date') {
+                    // Correct date format for entry into MySQL
+                    $date = DateTimeParser::getDateTime($request->release_date);
+
+                    $data[$editable] = $date;
+                } else {
+                    $data[$editable] = $request->$editable;
+                }
             }
         }
 
@@ -164,7 +171,8 @@ class ItemsService
         
         // Move the file to the specified folder saving it with name 'logo_' 
         // with ID of vendor appended
-        $name = 'item_'.$item_id;
+        // We also append timestamps to force reload of images by browser after updates
+        $name = 'item_'.$item_id.'_'.time();;
         $destination = $file->move($path, $name, 'jpg');
         
         return $destination;
