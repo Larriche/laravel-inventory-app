@@ -24,7 +24,7 @@
 
 	             <div class="row margin-bottom">
                     <div class="col-lg-7 col-md-7 col-sm-12">
-                        <form method="POST" action="" class="items-filter-form">
+                        <form method="POST" action="" class="items-filter-form" id="items-filter-form">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <div class="col-md-5">
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="col-md-5 col-lg-5 col-sm-12">
-                        <form method="POST" action="" class="items-filter-form">
+                        <form method="POST" action="" class="items-filter-form" id="items-search-form">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <div class="col-md-10">

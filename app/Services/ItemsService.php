@@ -41,10 +41,10 @@ class ItemsService
             $request->order_field : 'ASC';
 
         $query = Item::with('type', 'vendor');
-
+   
         if ($name) {
             $keywords = explode(" ", $name);
-
+            
             foreach ($keywords as $keyword) {
                 $query = $query->where('name', 'LIKE', '%'.$keyword.'%');
             }

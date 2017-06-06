@@ -16,6 +16,42 @@ var Items = {
 	    });
 	},
 
+	filterItems: function(form){
+		// Filter items in items table based on some passed params
+		var $container = $('#items-container');
+		var price = $(form).find('[name=price]').val();
+		var color = $(form).find('[name=color]').val();
+		$container.html("");
+
+		url = '/items?price=' + price + '&color=' + color;
+
+		$.ajax({
+	        type: 'get',
+	        url : url,
+	        success: function(response){
+		        $container.html(response);
+		    }
+	    });
+	},
+
+	searchItems: function(form){
+		// Search for items and referesh items table view
+		var $container = $('#items-container');
+		var name = $(form).find('[name=name]').val();
+		$container.html("");
+
+		url = '/items?name=' + name;
+		console.log(url);
+
+		$.ajax({
+	        type: 'get',
+	        url : url,
+	        success: function(response){
+		        $container.html(response);
+		    }
+	    });
+	},
+
 	populateEditFields: function(id){
 		$.ajax({
 	        type: 'get',
@@ -74,6 +110,18 @@ var Items = {
 			e.preventDefault();
 			App.submitForm(this, Items.refreshItems, null);
 			App.hideConfirmDialog();
+		});
+
+		// Event handler for when form for filtering items is submitted
+		$(document).on('submit', '#items-filter-form', function(e){
+			e.preventDefault();
+			Items.filterItems(this);
+		});
+
+		// Event handler for when form for searching for items is submitted
+		$(document).on('submit', '#items-search-form', function(e){
+			e.preventDefault();
+			Items.searchItems(this);
 		});
 	}
 };
