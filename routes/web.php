@@ -25,3 +25,6 @@ Route::resource('items', 'ItemsController');
 
 // Home route
 Route::get('/', 'DashboardController@index');
+
+// Routes for getting data about statistics
+Route::get('/stats/item_percentages', 'DashboardController@getItemsPercentages');

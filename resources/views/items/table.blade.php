@@ -2,14 +2,14 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th style="width: 8%"></th>
+            <th style="width: 8%">Image</th>
             <th>Serial Number</th>
             <th style="width: 20%">Item</th>
             <th>Color</th>
             <th>Type</th>
             <th>Vendor</th>
             <th>Price</th>
-            <th style="width: 12%">Actions</th>
+            <th style="width: 15%">Actions</th>
         </tr>
     </thead>
 
@@ -23,6 +23,7 @@
              <td>{{ $item->vendor->name }}</td>
              <td>${{ $item->price }}</td>
              <td>
+             <button class="btn btn-success btn-sm view-item" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></button>
              <button class="btn btn-info btn-sm update-item" data-id="{{ $item->id }}"><i class="fa fa-pencil"></i></button>
              <button class="btn btn-danger btn-sm delete-item" data-id="{{ $item->id }}"><i class="fa fa-trash-o"></i></button>
              </td>

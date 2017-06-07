@@ -28,7 +28,7 @@ class VendorsService
             $per_page = 20;
             $vendors = Vendor::paginate($per_page);
         } else {
-            $vendors = Vendors::all();
+            $vendors = Vendor::all();
         }
 		return $vendors;
 	}
