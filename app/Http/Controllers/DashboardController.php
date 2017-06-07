@@ -16,7 +16,7 @@ class DashboardController extends Controller
     	$users = User::all();
     	$vendors = Vendor::all();
     	$items = Item::all();
-        $latest_items = Item::orderBy('created_at', 'DESC')->take(2)->get();
+        $latest_items = Item::orderBy('created_at', 'DESC')->take(5)->get();
     	$average_price = StatisticsService::getAveragePrice();
     	return view('dashboard.index', compact('vendors', 'items', 'users', 'average_price', 'latest_items'));
     }
