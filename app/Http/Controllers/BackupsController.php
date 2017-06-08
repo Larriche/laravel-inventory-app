@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use ZipArchive;
 use Illuminate\Http\Request;
 use App\Services\BackupsService;
@@ -95,7 +96,9 @@ class BackupsController extends Controller
         }
 
         if($request->ajax()){
-            return json_encode(['message' => $message]);
+            $response = ['message' => 'Restore was successful'];
+
+            return Response::json($response, 200);
         }
 
         return redirect()->back()->with('status', $message);
