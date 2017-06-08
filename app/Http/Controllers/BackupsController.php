@@ -22,98 +22,82 @@ class BackupsController extends Controller
      * Bundle the app's data into a zip containing sql file for database backup and 
      * images folder and return the zip file for download
      * 
-     * @return [type] [description]
+     * @return Illuminate\Http\Response
      */
     public function backup()
     {
-    	$server_name   = "localhost";
-		$username      = "richman";
-		$password      = "larry123";
-		$database_name = "inventory";
-		$date_string   = date("Y_m_d_h_m_s");
-		$sql_path = base_path()."/storage/inventory_backups/inventory_".$date_string.".sql";
-		$backup_folder = base_path()."/storage/inventory_backups";
+        $settings = [
+            'username' => env("DB_USERNAME"),
+            'password' => env("DB_PASSWORD"),
+            'db_name'  => env("DB_DATABASE"),
+            'server'   => env("DB_HOST"),
+            'backup_destination' => base_path()."/storage/inventory_backups",
+            'mysql_bin_path' => env("MYSQL_BIN")
+        ];
 
-		$backups_service = new BackupsService();
+		$backups_service = new BackupsService($settings);
+        $result = $backups_service->backup(base_path()."/storage/app/public/uploads");
 
-		// If backups folder does not exist, create it
-		if (!file_exists($backup_folder)){
-			mkdir($backup_folder);
-		}
-        
-        // Create backup sql file
-        $command = "C:/xampp/mysql/bin/mysqldump --routines -h {$server_name} -u {$username} ";
-        $command = strlen($password) ? $command."-p{$password} " : $command;
-        $command .= "{$database_name} > ". $sql_path;
-
-    	$cmd = exec($command, $output, $return);
-
-    	// Copy uploaded images folder to inventory backups
-    	$images_folder_path = base_path()."/storage/app/public/uploads";
-
-        // Zip images folder
-        $files = array_diff(scandir($images_folder_path), array('.', '..'));
-        $zip_path = $images_folder_path."/uploads.zip";
-
-        touch($zip_path);
-
-        $zip = new ZipArchive();
-
-        try {
-            $res = $zip->open($zip_path, ZipArchive::CREATE);
-
-            if ($res === TRUE) {
-                foreach($files as $file) {
-                	if ($file != 'uploads.zip') {
-	                	$inner_files = array_diff(scandir($images_folder_path.'/'.$file), array('.', '..'));
-
-	                	foreach($inner_files as $inner) {
-	                        $zip->addFile($images_folder_path.'/'.$file.'/'.$inner, $file.'/'.$inner);
-	                    }
-	                }
-                }
-                
-                $zip->close();
-            }
-            
-        } catch (Exception $ex) {
-        	return false;
-        }
-
-        // Move created zip file to inventory_backups
-        $uploads_zip = $backup_folder.'/uploads_'.$date_string.".zip";
-        rename($zip_path, $uploads_zip);
-
-        // Create a final zip of uploads and sql file
-        $backup_zip_path = $backup_folder.'/backups_'.$date_string.".zip";
-
-        touch($backup_zip_path);
-
-        $backup_zip = new ZipArchive();
-
-        try {
-            $res = $backup_zip->open($backup_zip_path, ZipArchive::CREATE);
-
-            if ($res === TRUE) {
-            	$backup_zip->addFile($sql_path, "db_backup_".$date_string.".sql");
-            	$backup_zip->addFile($uploads_zip, "uploads_".$date_string.".zip");
-            	$backup_zip->close();
-
-            	// Delete the upload and sql files so it's left with
-            	// only the final backups zip
-            	unlink($sql_path);
-            	unlink($uploads_zip);
-            }
-        } catch (Exception $ex) {
-        	return false;
-        }
-
-        if(!$return){
-            return response()->download(storage_path('inventory_backups/backups_'.$date_string.'.zip'));
+        if($result['status'] == 'success'){
+            return response()->download($result['file']);
         } 
         else{
-            $message = 'Backup failed to complete.';
+            $message = 'Backup failed to complete.'.$result['error'];
             return redirect()->back()->withErrors([$message]);
         }
+    }
+
+    /**
+     * Restore database from an uploaded SQL file
+     * 
+     * @param  Request $request The HTTP request
+     * @return Illuminate\Http\Response The HTTP response
+     */
+    public function restore(Request $request)
+    {
+        $this->validate($request, ['sql_file' => 'required']);
+
+        if($request->file('sql_file')){
+            $extension = $request->file('sql_file')->getClientOriginalExtension();
+
+            if($extension != 'sql'){
+                if($request->ajax())
+                    return ['errors' => ['Invalid backup file uploaded']];
+                else
+                    return redirect()->back()->withErrors('Invalid backup file uploaded');
+            }
+
+            $fileName = 'restore.sql';
+            $request->file('sql_file')->move(base_path().'/storage/',$fileName);
+        }
+
+        $server_name   = "localhost";
+        $username      = env("DB_USERNAME");
+        $password      = env("DB_PASSWORD");
+        $database_name = env("DB_DATABASE");   
+        $path = base_path().'/storage/restore.sql';
+        $mysql_bin = env("MYSQL_BIN");
+
+        $cmd = exec("{$mysql_bin}/mysql -h {$server_name} -u {$username} {$database_name} < " 
+            . $path, $output, $return);
+
+        $command = "{$mysql_bin}/mysql -h {$server_name} -u {$username} ";
+        $command = strlen($password) ? $command."-p{$password} " : $command;
+        $command .= "{$database_name} < ". $path;
+
+        $cmd = exec($command, $output, $return);
+
+        if(!$return){
+            $message = 'Database has been restored with loaded data';
+        } 
+        else{
+            $message = 'Database could not be restored';
+        }
+
+        if($request->ajax()){
+            return json_encode(['message' => $message]);
+        }
+
+        return redirect()->back()->with('status', $message);
     }
 }

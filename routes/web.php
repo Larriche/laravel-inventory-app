@@ -32,3 +32,4 @@ Route::get('/stats/item_percentages', 'DashboardController@getItemsPercentages')
 // Routes for backups and restore functionality
 Route::get('/backups', 'BackupsController@index');
 Route::post('/backup', 'BackupsController@backup');
+Route::post('/restore', 'BackupsController@restore');
