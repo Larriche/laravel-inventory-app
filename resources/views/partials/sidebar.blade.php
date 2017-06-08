@@ -33,7 +33,10 @@
                 <li class="{{ Request::segment(1) == 'types' ? 'active' : null }}"><a href="{{ URL::to('/item_types') }}"><i class="fa fa-cubes"></i>Types</a></li>
 
                 <li class="{{ Request::segment(1) == 'item_vendors' ? 'active' : null }}"><a href="{{ URL::to('/item_vendors') }}"><i class="fa fa-institution"></i>Vendors</a></li>
-                
+
+                <li class="{{ Request::segment(1) == 'backups' ? 'active' : null }}"><a href="{{ URL::to('/backups') }}"><i class="fa fa-user"></i>Manage Users</a></li>
+
+                <li class="{{ Request::segment(1) == 'backups' ? 'active' : null }}"><a href="{{ URL::to('/backups') }}"><i class="fa fa-download"></i>Backup and Restore</a></li>   
 			</ul>		
 		</div>
 
