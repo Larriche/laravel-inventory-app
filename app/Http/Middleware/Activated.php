@@ -19,10 +19,12 @@ class Activated
     public function handle($request, Closure $next)
     {
         if (Auth::user()->isPendingActivation()) {
+            Auth::logout();
             return redirect('/activate');
         }
 
         if (Auth::user()->isInActive()) {
+            Auth::logout();
             return redirect('/login')->withErrors('Your account is no longer active.Contact admin');
         }
 

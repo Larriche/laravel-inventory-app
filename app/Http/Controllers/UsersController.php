@@ -34,9 +34,9 @@ class UsersController extends Controller
      */
     public function __construct(UsersService $users_service)
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['login']]);
         $this->middleware('admin', ['only' => ['index']]);
-        $this->middleware('activated', ['except' => ['activate', 'updatePassword']]);
+        $this->middleware('activated', ['except' => ['login', 'activate', 'updatePassword']]);
 
         $this->users_service = $users_service;
     }
