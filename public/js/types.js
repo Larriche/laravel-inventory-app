@@ -8,7 +8,6 @@ var Types = {
 		$(document).on('submit', '#type-add-form', function(e){
 			e.preventDefault();
 			App.submitForm(this, Types.refreshTypes, $('#types-add-errors-container'));
-			$(this)[0].reset();
 		});
 
         // Event handler for click of edit button of an item type

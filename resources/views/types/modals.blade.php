@@ -56,7 +56,7 @@
                     <span aria-hidden="true">x</span>
                 </button>
 
-                <h4>Update Vendor</h4>
+                <h4>Update Item Type</h4>
             </div>
 
             <form class="form" method="POST" action="" id="type-update-form">
@@ -82,7 +82,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-5 col-offset-1 col-md-offset-1">
-                            <button type="submit" class="btn btn-primary btn-block">Update Vendor</button>
+                            <button type="submit" class="btn btn-primary btn-block">Update Type</button>
                         </div>
 
                         <div class="col-lg-5 col-md-5 col-sm-5">
