@@ -25,6 +25,9 @@ class TypesController extends Controller
 	{
         // This service deals with all the actions related to types
         $this->types_service = $types_service;
+
+        $this->middleware('auth');
+        $this->middleware('activated');
 	}
 
     /**

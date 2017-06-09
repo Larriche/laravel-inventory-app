@@ -55,9 +55,27 @@ class User extends Authenticatable
      */
     public function isActivated()
     {
-        $user = self::with('status')->find($this->id);
+        return strtolower($this->status->name) === 'active';
+    }
 
-        return strtolower($user->status->name) === 'active';
+    /**
+     * Determines if a user is pending activation
+     * 
+     * @return boolean
+     */
+    public function isPendingActivation()
+    {
+        return strtolower($this->status->name) === 'pending activation';
+    }
+
+    /**
+     * Determines if a user account has been made inactive
+     *
+     * @return  boolean Status of test
+     */
+    public function isInActive()
+    {
+        return strtolower($this->status->name) === 'inactive';
     }
 
     /**

@@ -26,6 +26,9 @@ class VendorsController extends Controller
 	{
         // This service deals with all the actions related to types
         $this->vendors_service = $vendors_service;
+
+        $this->middleware('auth');
+        $this->middleware('activated');
 	}
 
     /**

@@ -27,7 +27,7 @@
 
 						<div class="form-group">
 							<label for="username">Username</label>
-							<input type="text" name="username" placeholder="Username" class="form-control" required="required" autocomplete="off">
+							<input type="text" name="username" placeholder="Username" class="form-control" required="required" autocomplete="off"value="{{ old('username') }}">
 						</div>
 
 

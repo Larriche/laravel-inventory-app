@@ -88,13 +88,15 @@ class UsersService
 	{
 		$data = [];
 
-		$editables = ['name', 'email', 'password'];
+		$editables = ['name', 'email', 'password', 'status_id', 'role_id'];
 
 		foreach ($editables as $editable) {
-			if ($editable == 'password') {
-				$data[$editable] = Hash::make($request->password);
-			} else {
-				$data[$editable] = $request->$editable;
+			if($request->has($editable)) {
+				if ($editable == 'password') {
+					$data[$editable] = Hash::make($request->password);
+				} else {
+					$data[$editable] = $request->$editable;
+				}
 			}
 		}
 

@@ -36,6 +36,8 @@ class UsersController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('admin', ['only' => ['index']]);
+        $this->middleware('activated', ['except' => ['activate', 'updatePassword']]);
+
         $this->users_service = $users_service;
     }
     
@@ -268,5 +270,41 @@ class UsersController extends Controller
 
             return Response::json($response, 404);
         }
+    }
+
+    /**
+     * Display user activation form
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function activate()
+    {
+        return view('auth.activate');
+    }
+    
+    /**
+     * Update password for users who are changing password after 
+     * been added by admin
+     * 
+     * @param  Request $request The HTTP request
+     * @return Illuminate\Http\Response
+     */
+    public function updatePassword(Request $request)
+    {
+        // Validate request
+        $this->validate($request, [
+            'username' => 'required|min:3',
+            'name' => 'required|min:2|max:255',
+            'password' => 'required|confirmed',
+        ]);
+
+        // Update user account
+        Auth::user()->update([
+            'name' => $request->name,
+            'password' => bcrypt($request->password),
+            'status_id' => UserStatus::where('name', 'active')->first()->id,
+        ]);
+
+        return redirect()->intended();
     }
 }

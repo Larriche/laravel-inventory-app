@@ -26,7 +26,7 @@
 	<body class="nav-md {{ $body_class }}">
 		<div class="container body">
 			<div class="main_container">
-				@if (Auth::check())
+				@if (Auth::check() && Auth::user()->isActivated())
 					{{-- Sidebar --}}
 					<div class="col-lg-3 col-md-3 col-sm-3 left_col">
 						@include('partials.sidebar')

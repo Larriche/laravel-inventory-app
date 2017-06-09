@@ -47,9 +47,8 @@
 							<td>
 	                         	<button class="btn btn-info btn-sm update-user" data-toggle="modal" data-id="{{ $user->id }}"><i class="fa fa-pencil"></i></button>
 
-	                         	@if ($user->status->name != 'Inactive')
-	                         		<button class="btn btn-danger btn-sm delete-user" data-toggle="modal"  data-id="{{ $user->id }}"><i class="fa fa-trash-o"></i></button>
-	                         	@endif
+	                         	
+                         		<button class="btn btn-danger btn-sm delete-user" data-toggle="modal"  data-id="{{ $user->id }}"><i class="fa fa-trash-o"></i></button>
 							</td>
 						</tr>
 					@endforeach

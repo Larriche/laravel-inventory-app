@@ -9,6 +9,17 @@ use App\Services\BackupsService;
 
 class BackupsController extends Controller
 {
+    /**
+     * Create a new instance of BackupsController
+     * 
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+        $this->middleware('activated');
+    }
+
 	/**
 	 * Show the landing page for managing backups
 	 * 
