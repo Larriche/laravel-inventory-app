@@ -2,6 +2,15 @@
 
 namespace App\Services;
 
+/*
+|--------------------------------------------------------------------------
+| UsersService
+|--------------------------------------------------------------------------
+|
+| This is a helper class for managing the CRUD operations regarding users
+|
+*/
+
 use App\Models\User;
 use App\Models\UserStatus;
 
@@ -118,7 +127,7 @@ class UsersService
     /**
      * Activate a user account by updating password after been added by admin
      * 
-     * @param  App\Models\User $user The user whose account is been activated
+     * @param  App\Models\User $user The user whose account is being activated
      * @param  Illuminate\Http\Request $request The HTTP request
      * @return App\Models\User The updated user
      */

@@ -1,14 +1,20 @@
 <?php
 namespace App\Services;
 
+/*
+|--------------------------------------------------------------------------
+| DateTimeParser
+|--------------------------------------------------------------------------
+|
+| This class is used for generating a MySQL datetime field from
+| a combination of date and time selected using Jquery/Bootstrap date and time
+| picker
+|
+*/
+
 class DatetimeParser
 {
-	/**
-	 * This class is used for generating a MySQL datetime field from
-	 * a combination of date and time selected using Bootstrap date and time
-	 * picker
-	 */
-	
+
     /** 
      * Convert date and time selected using Bootstrap picker
      * into MySQL datetime format
@@ -45,7 +51,7 @@ class DatetimeParser
      */
 	public static function getPickerDateTime($dateTime)
 	{
-		$datetimeParts = explode(" ",$dateTime);
+		$datetimeParts = explode(" ", $dateTime);
 		$date = $datetimeParts[0];
 		$time = (count($datetimeParts) > 1) ? $datetimeParts[1] : null;
 

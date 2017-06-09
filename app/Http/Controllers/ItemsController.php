@@ -82,7 +82,7 @@ class ItemsController extends Controller
 		    'vendor_id' => 'required',
 		    'type_id' =>'required',
 		    'serial_number' => 'required|unique:items',
-		    'weight' =>'required',
+		    'weight' =>'required|numeric',
 		    'color' => 'required',
 		    'price' => 'required|numeric',
 		];
@@ -97,7 +97,6 @@ class ItemsController extends Controller
         }
 
         // If item image is uploaded, validate image
-        // If vendor logo has been uploaded, validate the photo
 		if ($request->file('image')) {
             // Create a new instance of FileUploadManager class
             $file = new FileUploadManager($request->file('image'));
@@ -135,7 +134,9 @@ class ItemsController extends Controller
 
         	return Response::json($response, 200);
         } else {
-        	$response = ['errors' => ['An unknown error occurred when saving item']];
+            $validator->getMessageBag()->add('name', 'An unknown error occurred when saving item');
+
+        	$response = ['errors' => $validator->messages()];
 
             return Response::json($response , 422);
         }

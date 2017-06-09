@@ -2,6 +2,15 @@
 
 namespace App\Services;
 
+/*
+|--------------------------------------------------------------------------
+| FileUploadManager
+|--------------------------------------------------------------------------
+|
+| This is a helper class for handling validation and upload of files
+|
+*/
+
 use File;
 
 class FileUploadManager
@@ -59,6 +68,7 @@ class FileUploadManager
      */
 	public function validate($settings)
 	{
+		// Errors from validation of uploaded file
 		$errors = [];
         
 		$file = $this->file;
@@ -66,6 +76,7 @@ class FileUploadManager
 		$size = $file->getClientSize() / 1024;
 		list($width, $height) = getimagesize($file);
         
+        // Ensure that file width(for images) is not bigger than specified
 		if (isset($settings['max_width'])) {
 			$maxWidth = $settings['max_width'];
 
@@ -74,6 +85,7 @@ class FileUploadManager
 	        }
 		}
 
+        // Ensure that file height(for images) is not bigger than specified
 		if (isset($settings['max_height'])) {
 			$maxHeight = $settings['max_height'];
 
@@ -82,6 +94,7 @@ class FileUploadManager
 	        }
 		}	
 
+        // Ensure that file size is not bigger than specified
 		if (isset($settings['max_size'])) {
 			$maxSize = $settings['max_size'];
 
@@ -90,6 +103,7 @@ class FileUploadManager
 			}
 		}
 
+        // Ensure that file is of valid type
 		if (isset($settings['valid_mimes'])) {
 			$mimes = $settings['valid_mimes'];
 
@@ -102,7 +116,9 @@ class FileUploadManager
 	}
 
     /**
-     * Move the uploaded file to a new location
+     * Move the uploaded file to a to public/uploads folder 
+     * of Laravel storage folder and save it in given folder
+     * with given file name
      * 
      * @param  string $path the folder location of the new path
      * @param  string $filename the name to save the file as
@@ -111,6 +127,8 @@ class FileUploadManager
 	{
 		$fileName = str_replace(["%" ,"*","!", '/'] , "_" , $fileName) . ".";
 
+        // If an extension is given, save file with given extension else use
+        // original extension of uploaded file
 		if ($extension) {
 			$fileName .= $extension;
 		}

@@ -16,7 +16,7 @@ class Role extends Model
     ];
 
     /**
-     * Name should be in title (pascal) case
+     * Name should be in title case
      * 
      * @param string $value
      */

@@ -1,5 +1,14 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| BackupsService
+|--------------------------------------------------------------------------
+|
+| This is a helper class for handling the backup functionality of the system
+|
+*/
+
 namespace App\Services;
 
 use ZipArchive;

@@ -4,7 +4,7 @@ namespace App\Services;
 
 /*
 |--------------------------------------------------------------------------
-| TypesService
+| StatisticsService
 |--------------------------------------------------------------------------
 |
 | This is a helper class for getting stats data to display on dashboard

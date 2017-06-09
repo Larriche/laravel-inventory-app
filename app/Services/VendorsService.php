@@ -64,7 +64,7 @@ class VendorsService
 	}
 
     /**
-     * Get the vendor with the given ID or return null if not exist
+     * Get the vendor with the given ID or return null if not existing
      * 
      * @param  int $id The ID of the vendor
      * @return App\Models\Vendor $vendor The vendor with given ID or null if not found

@@ -64,8 +64,8 @@ class UsersController extends Controller
 
         $roles = Role::all();
         $statuses = UserStatus::all();
-
         $users = $this->users_service->getUsers($request);
+
         $data = [
             'users'     => $users, 
             'roles'     => $roles,
@@ -90,7 +90,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'username' => 'required|min:3',
+            'username' => 'required|min:3|unique:users',
             'email' => 'required|email|unique:users',
             'name' => 'required|min:2|max:255',
             'password' => 'required|confirmed',

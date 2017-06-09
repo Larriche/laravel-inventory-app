@@ -89,7 +89,9 @@ class TypesController extends Controller
 
         	return Response::json($response, 200);
         } else {
-        	$response = ['errors' => ['An unknown error occurred when saving type']];
+            $validator->getMessageBag()->add('name','An unknown error occurred when saving type');
+
+        	$response = ['errors' => $validator->messages()];
 
             return Response::json($response , 422);
         }

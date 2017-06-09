@@ -185,11 +185,11 @@ class ItemsService
             }
         }
 
-        // Path of folder to save uploaded logo in
+        // Name of folder to save item image in
         $path = 'item_images';
         
-        // Move the file to the specified folder saving it with name 'logo_' 
-        // with ID of vendor appended
+        // Move the file to the specified folder saving it with name 'item_' 
+        // with ID of item appended
         // We also append timestamps to force reload of images by browser after updates
         $name = 'item_'.$item_id.'_'.time();;
         $destination = $file->move($path, $name, 'jpg');

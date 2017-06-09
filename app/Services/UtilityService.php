@@ -2,10 +2,20 @@
 
 namespace App\Services;
 
+/*
+|--------------------------------------------------------------------------
+| UtilityService
+|--------------------------------------------------------------------------
+|
+| This is a helper class with utility methods
+|
+*/
+
 class UtilityService {
     /**
      * Generate a regex for searching for similar items
-     * when spaces are ignored
+     * when spaces are ignored. This is used to prevent 
+     * duplicate names(when spacing is ignored)
      * 
      * @param  string $term Term to use for search usually an item's name
      * @return string The generated regex for use in SQL
