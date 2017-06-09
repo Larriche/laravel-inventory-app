@@ -247,3 +247,7 @@ p.form-info{
 	height: 100px;
 	width: 100px;
 }
+
+.input-custom-height{
+	height: 38px !important;
+}

@@ -1,4 +1,16 @@
 var Items = {
+	// Field to sort items in table by
+	sort_by: 'name',
+
+	// Current search term
+	search_term: null,
+
+	// Current price filter
+	price: null,
+
+	// Current color filter,
+	color: null,
+
 	Init: function(){
 		Items.registerEventListeners();
 	},
@@ -21,35 +33,22 @@ var Items = {
 		var $container = $('#items-container');
 		var price = $(form).find('[name=price]').val();
 		var color = $(form).find('[name=color]').val();
+
+		Items.price = price;
+		Items.color = color;
+
 		$container.html("");
 
-		url = '/items?price=' + price + '&color=' + color;
-
-		$.ajax({
-	        type: 'get',
-	        url : url,
-	        success: function(response){
-		        $container.html(response);
-		    }
-	    });
+		Items.changeOrdering();
 	},
 
 	searchItems: function(form){
 		// Search for items and referesh items table view
 		var $container = $('#items-container');
 		var name = $(form).find('[name=name]').val();
-		$container.html("");
-
-		url = '/items?name=' + name;
-		console.log(url);
-
-		$.ajax({
-	        type: 'get',
-	        url : url,
-	        success: function(response){
-		        $container.html(response);
-		    }
-	    });
+		Items.search_term = name;
+		
+		Items.changeOrdering();
 	},
 
 	populateEditFields: function(id){
@@ -123,6 +122,36 @@ var Items = {
 			e.preventDefault();
 			Items.searchItems(this);
 		});
+
+		// Event handler for when new sort by field is selected
+		$(document).on('change', '#sort-by', function(){
+			var field = $(this).val();
+			Items.changeSortField(field);
+		});
+	},
+
+	changeSortField: function(new_field) {
+		Items.sort_by = new_field;
+		Items.changeOrdering();
+	},
+
+	changeOrdering: function() {
+		// Change ordering of items table with filters applied
+		var $container = $('#items-container');
+		$container.html("");
+        
+        url = '/items?order_field=' + Items.sort_by;
+		url += Items.search_term ? ('&name=' + Items.search_term) : '';
+		url += Items.price ? ('&price=' + Items.price) : '';
+		url += Items.color ? ('&color=' + Items.color) : '';
+
+		$.ajax({
+	        type: 'get',
+	        url : url,
+	        success: function(response){
+		        $container.html(response);
+		    }
+	    });
 	}
 };
 

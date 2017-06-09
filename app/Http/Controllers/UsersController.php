@@ -293,17 +293,11 @@ class UsersController extends Controller
     {
         // Validate request
         $this->validate($request, [
-            'username' => 'required|min:3',
             'name' => 'required|min:2|max:255',
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed|min:6',
         ]);
 
-        // Update user account
-        Auth::user()->update([
-            'name' => $request->name,
-            'password' => bcrypt($request->password),
-            'status_id' => UserStatus::where('name', 'active')->first()->id,
-        ]);
+        $this->users_service->activateUser(Auth::user(), $request);
 
         return redirect()->intended();
     }

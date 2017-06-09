@@ -23,16 +23,16 @@
 	             </div>
 
 	             <div class="row margin-bottom">
-                    <div class="col-lg-7 col-md-7 col-sm-12">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
                         <form method="POST" action="" class="items-filter-form" id="items-filter-form">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <div class="col-md-5">
-                                    <input type="text" name="price" class="form-control" placeholder="Price">
+                                    <input type="text" name="price" class="form-control input-custom-height" placeholder="Price">
                                 </div>
 
                                 <div class="col-md-5">
-                                    <input type="text" name="color" class="form-control" placeholder="Color">
+                                    <input type="text" name="color" class="form-control input-custom-height" placeholder="Color">
                                 </div>
 
                                 <div class="col-md-2">
@@ -42,7 +42,27 @@
                         </form>
                     </div>
 
-                    <div class="col-md-5 col-lg-5 col-sm-12">
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <form>
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <label style="margin-top: 10px">Sort By</label>
+                                </div>
+
+                                <div class="col-md-9">
+                                    <div class="select2-wrapper">
+                                        <select name="sort_by" class="form-control select2 select2-hidden-accessible" id="sort-by">
+                                            <option value="name">Name</option>
+                                            <option value="serial_number">Serial Number</option>
+                                            <option value="price">Price</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-md-4 col-lg-4 col-sm-12">
                         <form method="POST" action="" class="items-filter-form" id="items-search-form">
                             {{ csrf_field() }}
                             <div class="form-group">

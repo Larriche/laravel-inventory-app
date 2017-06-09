@@ -11,14 +11,13 @@
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-xs-offset-2">
 					<img id="login-logo" class="img-responsive" src="{{ URL::asset('images/logo.png') }}">
-					<h1 class="align_center"><b>Inventory</b></h1>		
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<h2 class="align_center">Log in</h2>
-					<p id="undertext" class="align_center">Please enter your admin credentials</p>
+					<p id="undertext" class="align_center">Please enter your credentials</p>
 
 					<form action="{!! URL::to('/login') !!}" method="post">
 						{!! csrf_field() !!}

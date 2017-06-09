@@ -115,4 +115,20 @@ class UsersService
 		$user->delete();
 	}
 
+    /**
+     * Activate a user account by updating password after been added by admin
+     * 
+     * @param  App\Models\User $user The user whose account is been activated
+     * @param  Illuminate\Http\Request $request The HTTP request
+     * @return App\Models\User The updated user
+     */
+	public function activateUser($user, $request)
+	{
+		// Update user account
+        $user->update([
+            'name' => $request->name,
+            'password' => bcrypt($request->password),
+            'status_id' => UserStatus::where('name', 'active')->first()->id,
+        ]);
+	}
 }
