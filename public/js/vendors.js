@@ -8,7 +8,6 @@ var Vendors = {
 		$(document).on('submit', '#vendor-add-form', function(e){
 			e.preventDefault();
 			App.submitForm(this, Vendors.refreshVendors, $('#vendors-add-errors-container'));
-			$(this)[0].reset();
 		});
 
         // Event handler for click of edit button of a vendor

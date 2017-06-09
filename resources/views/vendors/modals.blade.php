@@ -23,7 +23,7 @@
                         <div class="row">
                             <div class="col-md-4 col-md-offset-8">
                                 <div class="vendor-logo-placeholder">
-                                    <img src="/images/image_placeholder.jpg" class="img img-responsive" id="uploaded-logo">
+                                    <img src="/images/item_image_placeholder.png" class="img img-responsive" id="uploaded-logo">
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                         <div class="row">
                             <div class="col-md-4 col-md-offset-8">
                                 <div class="vendor-logo-placeholder">
-                                    <img src="/images/image_placeholder.jpg" class="img img-responsive" id="update-uploaded-logo">
+                                    <img src="/images/item_image_placeholder.png" class="img img-responsive" id="update-uploaded-logo">
                                 </div>
                             </div>
                         </div>

@@ -92,7 +92,11 @@ class VendorsController extends Controller
             // If there were errors from the photo validation
             // Return the error messages as the response
             if (count($photo_errors)) {
-                $response = ['errors' => $photo_errors];
+                foreach ($photo_errors as $error) {
+                    $validator->getMessageBag()->add('logo', $error);
+                }
+
+                $response = ['errors' => $validator->messages()];
 
                 return Response::json($response , 422);
             }
@@ -192,7 +196,11 @@ class VendorsController extends Controller
             // If there were errors from the photo validation
             // Return the error messages as the response
             if (count($photo_errors)) {
-                $response = ['errors' => $photo_errors];
+                foreach ($photo_errors as $error) {
+                    $validator->getMessageBag()->add('logo', $error);
+                }
+                
+                $response = ['errors' => $validator->messages()];
 
                 return Response::json($response , 422);
             }
