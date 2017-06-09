@@ -91,7 +91,7 @@ class UsersController extends Controller
     {
         $rules = [
             'username' => 'required|min:3',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'name' => 'required|min:2|max:255',
             'password' => 'required|confirmed',
             'role_id' => 'required'
@@ -177,7 +177,7 @@ class UsersController extends Controller
         // Rules for validating data
         $rules = [
             'username' => 'required|min:3',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email,'.$user->id,
             'name' => 'required|min:2|max:255',
         ];     
         

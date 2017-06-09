@@ -19,7 +19,6 @@ class Activated
     public function handle($request, Closure $next)
     {
         if (Auth::user()->isPendingActivation()) {
-            Auth::logout();
             return redirect('/activate');
         }
 
