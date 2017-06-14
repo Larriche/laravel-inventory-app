@@ -7,7 +7,6 @@ use App\Models\Type;
 use App\Models\Vendor;
 
 use Response;
-use Validator;
 use Illuminate\Http\Request;
 use App\Services\ItemsService;
 use App\Services\DatetimeParser;
@@ -46,14 +45,7 @@ class ItemsController extends Controller
 		    'price' => 'numeric'
 		];
 
-		// Validate the passed data using the rules
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            $response = ['errors' => $validator->messages()];
-
-            return Response::json($response , 422);
-        }
+		$this->validate($request, $rules);
 
         $items = $this->items_service->getItems($request);
         $types = Type::all();
@@ -87,14 +79,7 @@ class ItemsController extends Controller
 		    'price' => 'required|numeric',
 		];
 
-		// Validate the passed data using the rules
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            $response = ['errors' => $validator->messages()];
-
-            return Response::json($response , 422);
-        }
+		$this->validate($request, $rules);
 
         // If item image is uploaded, validate image
 		if ($request->file('image')) {
@@ -117,11 +102,7 @@ class ItemsController extends Controller
             // If there were errors from the photo validation
             // Return the error messages as the response
             if (count($photo_errors)) {
-                foreach($photo_errors as $error) {
-                    $validator->getMessageBag()->add('image', $error);
-                }
-
-                $response = ['errors' => $validator->messages()];
+                $response = ['errors' => [$photo_errors]];
 
                 return Response::json($response , 422);
             }
@@ -134,9 +115,7 @@ class ItemsController extends Controller
 
         	return Response::json($response, 200);
         } else {
-            $validator->getMessageBag()->add('name', 'An unknown error occurred when saving item');
-
-        	$response = ['errors' => $validator->messages()];
+        	$response = ['errors' => ['An unknown error occurred when saving item']];
 
             return Response::json($response , 422);
         }
@@ -154,7 +133,7 @@ class ItemsController extends Controller
 
 		if ($item) {
             // Change release_date field of item to be in format suitable
-            // for Bootstrap date picker
+            // for Jquery Bootstrap date picker
             $item->release_date = DatetimeParser::getPickerDateTime($item->release_date)[0];
 			return Response::json($item, 200);
 		} else {
@@ -192,14 +171,7 @@ class ItemsController extends Controller
             'price' => 'required|numeric',
         ];
 
-        // Validate the passed data using the rules
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            $response = ['errors' => $validator->messages()];
-
-            return Response::json($response , 422);
-        }
+        $this->validate($request, $rules);
 
 		// If a new image is uploaded, validate the uploaded image
 		if ($request->file('image')) {
@@ -222,11 +194,7 @@ class ItemsController extends Controller
             // If there were errors from the photo validation
             // Return the error messages as the response
             if (count($photo_errors)) {
-                foreach($photo_errors as $error) {
-                    $validator->getMessageBag()->add('image', $error);
-                }
-
-                $response = ['errors' => $validator->messages()];
+                $response = ['errors' => [$photo_errors]];
 
                 return Response::json($response , 422);
             }

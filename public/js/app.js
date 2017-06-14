@@ -104,8 +104,8 @@ var App = {
 
 			error: function(response){
 				if ($errorContainer) {
-					var errors = response.responseJSON.errors;
-					console.log(errors);
+					if ($errorContainer) {
+					var errors = response.responseJSON;
 	                var errorHtml = App.buildErrorHtml(errors);
 
 	                $errorContainer.find('ul').html(errorHtml);
@@ -113,6 +113,7 @@ var App = {
 	                	.delay(15000).queue(function () {
 						$(this).addClass('hidden').dequeue();
 					});
+	            }
 	            }
 	            
  
