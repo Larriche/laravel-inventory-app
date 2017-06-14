@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Type;
 
-use Validator;
 use Response;
 use Illuminate\Http\Request;
 use App\Services\TypesService;
@@ -62,13 +61,7 @@ class TypesController extends Controller
 		];
 
 		// Validate the passed data using the rules
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            $response = ['errors' => $validator->messages()];
-
-            return Response::json($response , 422);
-        }
+        $this->validate($request, $rules);
         
         // Validate the uniqueness of this item type
         $regex = UtilityService::getSimilarityRegex($request->name);
@@ -76,8 +69,7 @@ class TypesController extends Controller
         $existing = Type::whereRaw('name REGEXP "'.$regex.'" ')->first();
 
         if ($existing) {
-        	$validator->getMessageBag()->add('name', 'This type already exists');
-            $response = ['errors' => $validator->messages()];
+            $response = ['errors' => ['This type already exists']];
 
             return Response::json($response, 422);
         }
@@ -89,9 +81,7 @@ class TypesController extends Controller
 
         	return Response::json($response, 200);
         } else {
-            $validator->getMessageBag()->add('name','An unknown error occurred when saving type');
-
-        	$response = ['errors' => $validator->messages()];
+            $response = ['errors' => ['An unknown error occurred']];
 
             return Response::json($response , 422);
         }
@@ -139,22 +129,14 @@ class TypesController extends Controller
 		];
 
 		// Validate the passed data using the rules
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            $response = ['errors' => $validator->messages()];
-
-            return Response::json($response , 422);
-        }
+        $this->validate($request, $rules);
         
         // Validate the uniqueness of this item type
         $regex = UtilityService::getSimilarityRegex($request->name);
-
         $existing = Type::whereRaw('name REGEXP "'.$regex.'" ')->where('id','!=', $type->id)->first();
 
         if ($existing) {
-        	$validator->getMessageBag()->add('name', 'This type already exists');
-            $response = ['errors' => $validator->messages()];
+        	$response = ['errors' => ['This type already exists']];
 
             return Response::json($response, 422);
         }

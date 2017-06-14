@@ -27,7 +27,17 @@ var App = {
 		var errorHtml = "";
 
         $.each(errors , function(key , value){
-            errorHtml += "<li>" + value[0] + "</li>";
+        	var curr = value[0];
+
+        	// Expand errors if current item is itself an array
+        	if (curr.constructor == Array) {
+        		$.each(curr , function(key , value){
+		            errorHtml += "<li>" + value + "</li>";        		
+        		});
+        	}
+        	else {
+	            errorHtml += "<li>" + curr + "</li>";        		
+        	}
         });
 
         return errorHtml;
@@ -105,15 +115,15 @@ var App = {
 			error: function(response){
 				if ($errorContainer) {
 					if ($errorContainer) {
-					var errors = response.responseJSON;
-	                var errorHtml = App.buildErrorHtml(errors);
+						var errors = response.responseJSON;
+		                var errorHtml = App.buildErrorHtml(errors);
 
-	                $errorContainer.find('ul').html(errorHtml);
-	                $('.modal-error-div').removeClass('hidden')
-	                	.delay(15000).queue(function () {
-						$(this).addClass('hidden').dequeue();
-					});
-	            }
+		                $errorContainer.find('ul').html(errorHtml);
+		                $('.modal-error-div').removeClass('hidden')
+		                	.delay(15000).queue(function () {
+							$(this).addClass('hidden').dequeue();
+						});
+		            }
 	            }
 	            
  

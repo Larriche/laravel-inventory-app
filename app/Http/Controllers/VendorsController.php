@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Vendor;
 
 use Response;
-use Validator;
 use Illuminate\Http\Request;
 use App\Services\VendorsService;
 use App\Services\UtilityService;
@@ -63,13 +62,7 @@ class VendorsController extends Controller
 		];
 
 		// Validate the passed data using the rules
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            $response = ['errors' => $validator->messages()];
-
-            return Response::json($response , 422);
-        }
+        $this->validate($request, $rules);
 
         // If vendor logo has been uploaded, validate the photo
 		if ($request->file('logo')) {
@@ -92,11 +85,7 @@ class VendorsController extends Controller
             // If there were errors from the photo validation
             // Return the error messages as the response
             if (count($photo_errors)) {
-                foreach ($photo_errors as $error) {
-                    $validator->getMessageBag()->add('logo', $error);
-                }
-
-                $response = ['errors' => $validator->messages()];
+                $response = ['errors' => [$photo_errors]];
 
                 return Response::json($response , 422);
             }
@@ -108,8 +97,7 @@ class VendorsController extends Controller
         $existing = Vendor::whereRaw('name REGEXP "'.$regex.'" ')->first();
 
         if ($existing) {
-            $validator->getMessageBag()->add('name', 'This vendor already exists');
-            $response = ['errors' => $validator->messages()];
+            $response= ['errors' => ['This vendor already exists']];
 
             return Response::json($response, 422);
         }
@@ -169,8 +157,7 @@ class VendorsController extends Controller
             ->where('id', '!=', $vendor->id)->first();
 
         if ($existing) {
-            $validator->getMessageBag()->add('name', 'This vendor already exists');
-            $response = ['errors' => $validator->messages()];
+            $response = ['errors' => ['This vendor already exists']];
 
             return Response::json($response, 422);
         }
@@ -196,11 +183,7 @@ class VendorsController extends Controller
             // If there were errors from the photo validation
             // Return the error messages as the response
             if (count($photo_errors)) {
-                foreach ($photo_errors as $error) {
-                    $validator->getMessageBag()->add('logo', $error);
-                }
-                
-                $response = ['errors' => $validator->messages()];
+                $response = ['errors' => [$photo_errors]];
 
                 return Response::json($response , 422);
             }
