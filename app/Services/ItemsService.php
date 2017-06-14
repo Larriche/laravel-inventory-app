@@ -37,6 +37,7 @@ class ItemsService
 
         $order_field = ($request->has('order_field') && $request->order_field) ? 
             $request->order_field : 'name';
+        
         $ranking = ($request->has('ranking_order') && $request->ranking_order) ? 
             $request->ranking_order : 'ASC';
 

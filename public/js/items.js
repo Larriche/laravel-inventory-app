@@ -15,42 +15,20 @@ var Items = {
 		Items.registerEventListeners();
 	},
 
-	refreshItems: function(){
+	refreshItems: function(url){
 		var $container = $('#items-container');
+		url = url || '/items';
 		$container.html("");
 
 		$.ajax({
 	        type: 'get',
-	        url : '/items',
+	        url : url,
 	        success: function(response){
 		        $container.html(response);
 		    }
 	    });
 	},
-
-	filterItems: function(form){
-		// Filter items in items table based on some passed params
-		var $container = $('#items-container');
-		var price = $(form).find('[name=price]').val();
-		var color = $(form).find('[name=color]').val();
-
-		Items.price = price;
-		Items.color = color;
-
-		$container.html("");
-
-		Items.changeOrdering();
-	},
-
-	searchItems: function(form){
-		// Search for items and refresh items table view
-		var $container = $('#items-container');
-		var name = $(form).find('[name=name]').val();
-		Items.search_term = name;
-		
-		Items.changeOrdering();
-	},
-
+	
 	populateEditFields: function(id){
 		$.ajax({
 	        type: 'get',
@@ -114,44 +92,81 @@ var Items = {
 		// Event handler for when form for filtering items is submitted
 		$(document).on('submit', '#items-filter-form', function(e){
 			e.preventDefault();
-			Items.filterItems(this);
+			$form = $(this);
+			var price = $form.find('[name=price]').val();
+			var color = $form.find('[name=color]').val();
+			
+			Items.price = price ? price : null;
+			Items.color = color ? color : null;
+
+			Items.filterTable();
 		});
 
 		// Event handler for when form for searching for items is submitted
 		$(document).on('submit', '#items-search-form', function(e){
 			e.preventDefault();
-			Items.searchItems(this);
+			var name = $(this).find('[name=name]').val();
+
+			Items.search_term = name ? name : null;
+
+			Items.filterTable();
 		});
 
 		// Event handler for when new sort by field is selected
 		$(document).on('change', '#sort-by', function(){
 			var field = $(this).val();
-			Items.changeSortField(field);
+			Items.sort_by = field;
+		    Items.filterTable();
 		});
 	},
 
-	changeSortField: function(new_field) {
-		Items.sort_by = new_field;
-		Items.changeOrdering();
-	},
+	filterTable: function() {
+		var url = '/items?';
 
-	changeOrdering: function() {
-		// Change ordering of items table with filters applied
-		var $container = $('#items-container');
-		$container.html("");
-        
-        url = '/items?order_field=' + Items.sort_by;
-		url += Items.search_term ? ('&name=' + Items.search_term) : '';
-		url += Items.price ? ('&price=' + Items.price) : '';
-		url += Items.color ? ('&color=' + Items.color) : '';
-
-		$.ajax({
-	        type: 'get',
-	        url : url,
-	        success: function(response){
-		        $container.html(response);
+		params = [
+		    {
+		    	'key' : 'order_field',
+		    	'value' : Items.sort_by
 		    }
-	    });
+		];
+
+		if (Items.search_term) {
+			params.push(
+				{
+				    'key' : 'name',
+				    'value' : Items.search_term		
+				}
+			);
+		}
+
+		if (Items.price) {
+			params.push(
+			    {
+					'key': 'price',
+					'value': Items.price
+			    }
+			);
+		}
+
+		if (Items.color) {
+			params.push(
+				{
+					'key': 'color',
+					'value': Items.color
+				}
+			);
+		}
+
+		for (var i = 0; i < params.length; i++) {
+			if (params[i].key && params[i].value)
+			    url += params[i].key + '=' + params[i].value + '&';
+		}
+
+		// Remove last '&'
+		url = url.slice(0,-1);
+		console.log(url);
+
+		Items.refreshItems(url);
 	}
 };
 
