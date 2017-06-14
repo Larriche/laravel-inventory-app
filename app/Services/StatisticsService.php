@@ -53,6 +53,10 @@ class StatisticsService
 
 		$prices = Item::pluck('price');
 
+		if (!count($prices)) {
+			return 0;
+		}
+
 		foreach( $prices as $price){
 			$total_price += (double)$price;
 		}

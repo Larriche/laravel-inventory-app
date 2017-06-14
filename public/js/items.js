@@ -43,7 +43,7 @@ var Items = {
 	},
 
 	searchItems: function(form){
-		// Search for items and referesh items table view
+		// Search for items and refresh items table view
 		var $container = $('#items-container');
 		var name = $(form).find('[name=name]').val();
 		Items.search_term = name;
