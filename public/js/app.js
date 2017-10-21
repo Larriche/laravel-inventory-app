@@ -114,16 +114,14 @@ var App = {
 
 			error: function(response){
 				if ($errorContainer) {
-					if ($errorContainer) {
-						var errors = response.responseJSON;
-		                var errorHtml = App.buildErrorHtml(errors);
+					var errors = response.responseJSON;
+	                var errorHtml = App.buildErrorHtml(errors);
 
-		                $errorContainer.find('ul').html(errorHtml);
-		                $('.modal-error-div').removeClass('hidden')
-		                	.delay(15000).queue(function () {
-							$(this).addClass('hidden').dequeue();
-						});
-		            }
+	                $errorContainer.find('ul').html(errorHtml);
+	                $('.modal-error-div').removeClass('hidden')
+	                	.delay(15000).queue(function () {
+						$(this).addClass('hidden').dequeue();
+					});
 	            }
 	            
  
